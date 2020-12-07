@@ -31,24 +31,25 @@ def get_connection():
 
         # Read known network profiles from file
         profiles = read_profiles()
+        
 
         # Search WiFis in range
         wlan_sta.active(True)
         networks = wlan_sta.scan()
 
-        AUTHMODE = {0: "open", 1: "WEP", 2: "WPA-PSK", 3: "WPA2-PSK", 4: "WPA/WPA2-PSK"}
-        for ssid, bssid, channel, rssi, authmode, hidden in sorted(networks, key=lambda x: x[3], reverse=True):
-            ssid = ssid.decode('utf-8')
+        AUTHMODE = {0: "open", 1: "WEP", 2: "WPA-PSK", 3: "WPA2-PSK", 4: "WPA/WPA2-PSK"}        
+        for ssid, bssid, channel, rssi, authmode, authtype, hidden in sorted(networks, key=lambda x: x[3], reverse=True):            
+            ssid = ssid.decode('utf-8')            
             encrypted = authmode > 0
             print("ssid: %s chan: %d rssi: %d authmode: %s" % (ssid, channel, rssi, AUTHMODE.get(authmode, '?')))
             if encrypted:
                 if ssid in profiles:
-                    password = profiles[ssid]
+                    password = profiles[ssid]                    
                     connected = do_connect(ssid, password)
                 else:
                     print("skipping unknown encrypted network")
-            else:  # open
-                connected = do_connect(ssid, None)
+            #else:  
+                #connected = do_connect(ssid, None)
             if connected:
                 break
 
@@ -64,7 +65,7 @@ def get_connection():
 
 def read_profiles():
     with open(NETWORK_PROFILES) as f:
-        lines = f.readlines()
+        lines = f.readlines()        
     profiles = {}
     for line in lines:
         ssid, password = line.strip("\n").split(";")
