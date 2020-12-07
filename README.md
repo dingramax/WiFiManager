@@ -3,7 +3,7 @@
 Lang   : Micropython 
 Tested : 1.8 and 1.9.3
 
-<b>Description</b> : WiFi manager for ESP8266 - ESP12 - ESP32 for micropython 
+<b>Description</b> : WiFi manager for ESP8266 - ESP12 - ESP32 for micropython with Lobo firmware
 
 <b>Main Features:</b>
 
